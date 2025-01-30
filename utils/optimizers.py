@@ -73,3 +73,21 @@ class Softmax(Optimizer):
     def prime(x):
         optimized_values = Softmax.optimize(x)
         return [sm_i * (1 - sm_i) for sm_i in optimized_values]
+
+
+class Tanh(Optimizer):
+    @staticmethod
+    @validateArgsTypes(logger, Optimizer.valid_types)
+    def optimize(x):
+        if type(x) in [int, float]:
+            return math.tanh(x)
+
+        return [math.tanh(x_i) for x_i in x]
+
+    @staticmethod
+    @validateArgsTypes(logger, Optimizer.valid_types)
+    def prime(x):
+        if type(x) in [int, float]:
+            return 1 - math.tanh(x) ** 2
+
+        return [1 - math.tanh(x_i) ** 2 for x_i in x]
